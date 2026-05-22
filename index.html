@@ -458,16 +458,39 @@ h2.sec em{font-style:italic}
 }
 .wa-cta:hover{background:#1fb858}
 .social-row{
-  display:flex;gap:0.8rem;margin-top:1.5rem;
-  padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);
+  display:flex;flex-direction:column;gap:0.8rem;margin-top:1.8rem;
+  padding-top:1.8rem;border-top:1px solid rgba(255,255,255,0.08);
 }
+.social-label{
+  font-size:0.62rem;text-transform:uppercase;letter-spacing:0.2em;
+  color:rgba(194,217,238,0.7);margin-bottom:0.2rem;font-weight:500;
+}
+.soc-btns{display:flex;gap:0.7rem;}
 .soc-btn{
-  flex:1;display:flex;align-items:center;justify-content:center;gap:0.5rem;
-  padding:0.6rem;border-radius:2px;
-  font-size:0.74rem;font-weight:400;text-decoration:none;
-  transition:background 0.2s;border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.75);
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.4rem;
+  padding:1rem 0.5rem;border-radius:6px;
+  font-size:0.72rem;font-weight:600;text-decoration:none;
+  transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  color:white;letter-spacing:0.04em;
+  position:relative;overflow:hidden;
 }
-.soc-btn:hover{background:rgba(255,255,255,0.07);color:white}
+.soc-btn::before{
+  content:'';position:absolute;inset:0;opacity:0;
+  transition:opacity 0.25s;
+}
+.soc-btn:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.soc-btn:hover::before{opacity:1}
+.soc-btn svg{width:22px;height:22px;transition:transform 0.25s}
+.soc-btn:hover svg{transform:scale(1.15)}
+.soc-btn.fb{background:linear-gradient(135deg,#1877f2,#0d5dbf);box-shadow:0 4px 12px rgba(24,119,242,0.3)}
+.soc-btn.fb::before{background:linear-gradient(135deg,#2d8af5,#1877f2)}
+.soc-btn.fb:hover{box-shadow:0 8px 24px rgba(24,119,242,0.5)}
+.soc-btn.ig{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);box-shadow:0 4px 12px rgba(193,53,132,0.35)}
+.soc-btn.ig::before{background:linear-gradient(135deg,#f5a73d,#f07040,#e03050,#d42b72,#c21d90)}
+.soc-btn.ig:hover{box-shadow:0 8px 24px rgba(193,53,132,0.55)}
+.soc-btn.tt{background:linear-gradient(135deg,#010101,#1a1a2e);border:1px solid rgba(255,255,255,0.15);box-shadow:0 4px 12px rgba(0,0,0,0.4)}
+.soc-btn.tt::before{background:linear-gradient(135deg,#ff0050,#00f2ea)}
+.soc-btn.tt:hover{box-shadow:0 8px 24px rgba(255,0,80,0.4);border-color:rgba(255,0,80,0.5)}
 
 .success-msg{
   display:none;text-align:center;padding:3rem 1rem;
@@ -547,6 +570,14 @@ footer{
   .dp-card{flex-direction:column;align-items:flex-start}
   .dp-right{text-align:left}
 }
+
+
+
+/* ── LANG SWITCHER ── */
+.lang-wrap{display:flex;align-items:center;gap:2px;margin-left:0.8rem;background:rgba(255,255,255,0.1);border-radius:3px;padding:2px}
+.lang-btn{background:transparent;color:rgba(255,255,255,0.6);border:none;padding:0.28rem 0.55rem;font-size:0.7rem;font-weight:600;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;border-radius:2px}
+.lang-btn.on{background:var(--gold);color:white}
+.lang-btn:hover:not(.on){color:white;background:rgba(255,255,255,0.15)}
 </style>
 </head>
 <body>
@@ -557,25 +588,29 @@ footer{
     <span class="logo-main">Orosi Valley Lodge</span>
     <span class="logo-sub">Valle de Orosí · Costa Rica</span>
   </a>
-  <ul class="nav-center">
-    <li><a href="#about">El Hotel</a></li>
-    <li><a href="#rooms">Alojamiento</a></li>
-    <li><a href="#daypass">Pase del Día</a></li>
-    <li><a href="#gallery">Galería</a></li>
-    <li><a href="#booking">Contacto</a></li>
+  <ul class="nav-center" id="nav-center">
+    <li><a href="#about" id="t-about">El Hotel</a></li>
+    <li><a href="#rooms" id="t-rooms">Alojamiento</a></li>
+    <li><a href="#daypass" id="t-daypass">Pase del Día</a></li>
+    <li><a href="#gallery" id="t-gallery">Galería</a></li>
+    <li><a href="#booking" id="t-contact">Contacto</a></li>
   </ul>
-  <a href="#booking" class="nav-cta">Reservar</a>
+  <a href="#booking" class="nav-cta" id="t-nav-cta">Reservar</a>
+  <div class="lang-wrap">
+    <button class="lang-btn on" id="btn-es" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
   <button class="hamburger" id="burger" aria-label="Menú">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#about" class="close-menu">El Hotel</a>
-  <a href="#rooms" class="close-menu">Alojamiento</a>
-  <a href="#daypass" class="close-menu">Pase del Día</a>
-  <a href="#gallery" class="close-menu">Galería</a>
-  <a href="#booking" class="close-menu">Reservar</a>
+  <a href="#about" class="close-menu" id="t-m-about">El Hotel</a>
+  <a href="#rooms" class="close-menu" id="t-m-rooms">Alojamiento</a>
+  <a href="#daypass" class="close-menu" id="t-m-daypass">Pase del Día</a>
+  <a href="#gallery" class="close-menu" id="t-m-gallery">Galería</a>
+  <a href="#booking" class="close-menu" id="t-m-booking">Reservar</a>
 </div>
 
 <!-- ═══ HERO ═══ -->
@@ -583,7 +618,7 @@ footer{
   <div class="hero-bg"></div>
   <div class="hero-veil"></div>
   <div class="hero-body">
-    <p class="hero-kicker">Orosí · Paraíso · Cartago · Costa Rica</p>
+    <p class="hero-kicker">>Orosí · Paraíso · Cartago · Costa Rica</p>
     <h1 class="hero-h1">
       <strong>Un refugio</strong> entre<br>montañas y <em>naturaleza</em>
     </h1>
@@ -651,7 +686,7 @@ footer{
       </div>
       <div class="about-text">
         <p class="tag">El Hotel</p>
-        <h2 class="sec">Boutique en el corazón<br>del <em>Valle de Orosí</em></h2>
+        <h2 class="sec">Boutique Boutique en el corazón<br>del <em>Valle de Orosí</em></h2>
         <p>Ubicado en el centro de Orosí, Paraíso de Cartago, el Orosi Valley Lodge es un hotel boutique con villas y habitaciones de estilo europeo, rodeadas de montañas y naturaleza costarricense.</p>
         <p>Fundado en 2017, ofrecemos una experiencia personalizada con desayuno incluido, piscina, bicicletas y acceso a parrillas en un ambiente acogedor para parejas, familias y grupos.</p>
         <div class="stars">
@@ -885,53 +920,53 @@ footer{
 
       <form id="bookForm">
         <div class="form-field">
-          <label>Nombre completo</label>
+          <label id="fl-name">Nombre completo</label>
           <input type="text" placeholder="Tu nombre completo" required>
         </div>
         <div class="form-row2">
           <div class="form-field">
-            <label>Correo electrónico</label>
+            <label id="fl-email">Correo electrónico</label>
             <input type="email" placeholder="correo@ejemplo.com" required>
           </div>
           <div class="form-field">
-            <label>Teléfono / WhatsApp</label>
+            <label id="fl-phone">Teléfono / WhatsApp</label>
             <input type="tel" placeholder="+506 8XXX-XXXX">
           </div>
         </div>
         <div class="form-field">
-          <label>Tipo de alojamiento</label>
+          <label id="fl-type">Tipo de alojamiento</label>
           <select required>
-            <option value="">Seleccioná una opción</option>
-            <optgroup label="🏡 Hospedaje">
-              <option>Villa – 1 persona · ₡30.000 (desayuno incluido)</option>
-              <option>Villa – 2 personas · ₡40.000 (desayuno incluido)</option>
-              <option>Habitación – 1 persona · ₡25.000 (desayuno incluido)</option>
-              <option>Habitación – 2 personas · ₡30.000 (desayuno incluido)</option>
+            <option value="" id="sel-ph">Seleccioná una opción</option>
+            <optgroup id="og-stay" label="🏡 Hospedaje">
+              <option id="op-v1">Villa – 1 persona · ₡30.000 (desayuno incluido)</option>
+              <option id="op-v2">Villa – 2 personas · ₡40.000 (desayuno incluido)</option>
+              <option id="op-h1">Habitación – 1 persona · ₡25.000 (desayuno incluido)</option>
+              <option id="op-h2">Habitación – 2 personas · ₡30.000 (desayuno incluido)</option>
             </optgroup>
-            <optgroup label="☀️ Pase del Día">
-              <option>Paquete #1 – Villa, instalaciones · ₡12.000/persona</option>
-              <option>Paquete #2 – Villa, todo incluido · ₡21.500/persona</option>
-              <option>Paquete #3 – Habitación, instalaciones · ₡10.000/persona</option>
-              <option>Paquete #4 – Habitación, 3 tiempos · ₡18.500/persona</option>
+            <optgroup id="og-day" label="☀️ Pase del Día">
+              <option id="op-d1">Paquete #1 – Villa, instalaciones · ₡12.000/persona</option>
+              <option id="op-d2">Paquete #2 – Villa, todo incluido · ₡21.500/persona</option>
+              <option id="op-d3">Paquete #3 – Habitación, instalaciones · ₡10.000/persona</option>
+              <option id="op-d4">Paquete #4 – Habitación, 3 tiempos · ₡18.500/persona</option>
             </optgroup>
           </select>
         </div>
         <div class="form-row2">
           <div class="form-field">
-            <label>Fecha de llegada</label>
+            <label id="fl-checkin">Fecha de llegada</label>
             <input type="date" id="checkin" required>
           </div>
           <div class="form-field">
-            <label>Fecha de salida</label>
+            <label id="fl-checkout">Fecha de salida</label>
             <input type="date" id="checkout">
           </div>
         </div>
         <div class="form-field">
-          <label>Número de personas</label>
+          <label id="fl-people">Número de personas</label>
           <input type="number" min="1" max="20" placeholder="1" required>
         </div>
         <div class="form-field">
-          <label>Solicitudes especiales (opcional)</label>
+          <label id="fl-notes">Solicitudes especiales (opcional)</label>
           <textarea rows="3" placeholder="Cumpleaños, intolerancias alimentarias, hora aproximada de llegada…"></textarea>
         </div>
         <button type="submit" class="btn-solid" style="width:100%;padding:1.1rem;font-size:0.82rem;border:none;cursor:pointer">
@@ -953,19 +988,19 @@ footer{
 
       <div class="cc-row">
         <div class="cc-icon">📧</div>
-        <div><label>Email</label><span>orosivalleylodge@gmail.com</span></div>
+        <div><label id="cc-email">Email</label><span>orosivalleylodge@gmail.com</span></div>
       </div>
       <div class="cc-row">
         <div class="cc-icon">📱</div>
-        <div><label>Teléfono / WhatsApp</label><span>+506 8455-8509</span></div>
+        <div><label id="cc-phone">Teléfono / WhatsApp</label><span>+506 8455-8509</span></div>
       </div>
       <div class="cc-row">
         <div class="cc-icon">📍</div>
-        <div><label>Ubicación</label><span>Centro de Orosí, Paraíso, Cartago</span></div>
+        <div><label id="cc-loc">Ubicación</label><span>Centro de Orosí, Paraíso, Cartago</span></div>
       </div>
       <div class="cc-row">
         <div class="cc-icon">🕐</div>
-        <div><label>Check-in / Check-out</label><span>2:00 p.m. · 12:00 p.m.</span></div>
+        <div><label id="cc-time">Check-in / Check-out</label><span>2:00 p.m. · 12:00 p.m.</span></div>
       </div>
 
       <a href="https://wa.me/50684558509?text=Hola!%20Me%20gustar%C3%ADa%20consultar%20disponibilidad%20en%20el%20Orosi%20Valley%20Lodge." class="wa-cta" target="_blank" rel="noopener">
@@ -974,14 +1009,21 @@ footer{
       </a>
 
       <div class="social-row">
-        <a href="https://www.facebook.com/hotelyvillasorosivalley" target="_blank" rel="noopener" class="soc-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          Facebook
-        </a>
-        <a href="https://www.instagram.com/orosivalleylodge" target="_blank" rel="noopener" class="soc-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-          Instagram
-        </a>
+        <p class="social-label">Seguinos en redes sociales</p>
+        <div class="soc-btns">
+          <a href="https://www.facebook.com/hotelyvillasorosivalley" target="_blank" rel="noopener" class="soc-btn fb">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            <span >Facebook</span>
+          </a>
+          <a href="https://www.instagram.com/orosivalleylodge" target="_blank" rel="noopener" class="soc-btn ig">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            <span >Instagram</span>
+          </a>
+          <a href="https://www.tiktok.com/@orosivalleylodge" target="_blank" rel="noopener" class="soc-btn tt">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+            <span >TikTok</span>
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -992,7 +1034,7 @@ footer{
   <div class="footer-logo">Orosi Valley Lodge</div>
   <div class="footer-links">
     <a href="#about">El Hotel</a>
-    <a href="#rooms">Alojamiento</a>
+    <a href="#rooms" id="t-rooms">Alojamiento</a>
     <a href="#daypass">Pase del Día</a>
     <a href="#gallery">Galería</a>
     <a href="#booking">Contacto</a>
@@ -1035,6 +1077,441 @@ ci.addEventListener('change', () => {
   co.setAttribute('min', ci.value);
   if (co.value && co.value < ci.value) co.value = ci.value;
 });
+</script>
+
+
+
+<script>
+const T = {
+  es: {
+    "t-about":    "El Hotel",
+    "t-rooms":    "Alojamiento",
+    "t-daypass":  "Pase del Día",
+    "t-gallery":  "Galería",
+    "t-nav-cta":  "Reservar",
+    "t-m-about":  "El Hotel",
+    "t-m-rooms":  "Alojamiento",
+    "t-m-daypass":"Pase del Día",
+    "t-m-gallery":"Galería",
+    "t-m-booking":"Reservar",
+    "t-contact":"Contacto"
+  },
+  en: {
+    "t-about":    "About",
+    "t-rooms":    "Rooms",
+    "t-daypass":  "Day Pass",
+    "t-gallery":  "Gallery",
+    "t-nav-cta":  "Book Now",
+    "t-m-about":  "About",
+    "t-m-rooms":  "Rooms",
+    "t-m-daypass":"Day Pass",
+    "t-m-gallery":"Gallery",
+    "t-m-booking":"Book Now",
+    "t-contact":"Contact"
+  }
+};
+
+// Full page text translations using querySelector
+const PAGE = {
+  es: {
+    heroKicker:   "Orosí · Paraíso · Cartago · Costa Rica",
+    heroTitle:    '<strong>Un refugio</strong> entre<br>montañas y <em>naturaleza</em>',
+    heroDesc:     "Villas y habitaciones boutique en el corazón del Valle de Orosí. Desayuno incluido, piscina, bicicletas y la auténtica calidez costarricense.",
+    heroBtn1:     "Hacer una reserva",
+    heroBtn2:     "Ver habitaciones",
+    scrollTxt:    "Descubrí más",
+    feat0label:   "Google Reviews",
+    feat1label:   "Desayuno",
+    feat1val:     "Siempre incluido",
+    feat2label:   "Piscina",
+    feat2val:     "Incluida",
+    feat3label:   "Bicicletas",
+    feat3val:     "Incluidas",
+    feat4label:   "Área de parrillas",
+    feat4val:     "Incluida",
+    feat5label:   "Parqueo",
+    feat5val:     "Privado bajo techo",
+    aboutTag:     "El Hotel",
+    aboutTitle:   'Boutique en el corazón<br>del <em>Valle de Orosí</em>',
+    aboutP1:      "Ubicado en el centro de Orosí, Paraíso de Cartago, el Orosi Valley Lodge es un hotel boutique con villas y habitaciones de estilo europeo, rodeadas de montañas y naturaleza costarricense.",
+    aboutP2:      "Fundado en 2017, ofrecemos una experiencia personalizada con desayuno incluido, piscina, bicicletas y acceso a parrillas en un ambiente acogedor para parejas, familias y grupos.",
+    reviewLabel:  "Calificación en Google",
+    reviewSub:    "Basado en reseñas de huéspedes",
+    roomsTag:     "Alojamiento",
+    roomsTitle:   'Elegí tu <em>espacio ideal</em>',
+    roomsLead:    "Check-in: 2:00 p.m. · Check-out: 12:00 p.m. Todas las reservas incluyen desayuno, piscina, bicicletas, parrillas y parqueo privado.",
+    villa_badge:  "Villa equipada",
+    villa_type:   "Hospedaje · Villa",
+    villa_name:   "Villa Completa",
+    villa_a1: "2 habitaciones", villa_a2: "Camas matrimoniales", villa_a3: "TV en cada cuarto",
+    villa_a4: "Baño privado", villa_a5: "Cocina equipada", villa_a6: "Balcón con vista",
+    villa_a7: "Desayuno incluido", villa_a8: "Piscina · Bicicletas",
+    villa_from:   "Desde (1 persona)",
+    villa_note:   "2 personas ₡40.000 · Adicional ₡10.000",
+    villa_btn:    "Reservar",
+    hab_badge:    "Habitación sencilla",
+    hab_type:     "Hospedaje · Habitación",
+    hab_name:     "Habitación Equipada",
+    hab_a1: "Cama matrimonial", hab_a2: "Cama individual", hab_a3: "Televisor",
+    hab_a4: "Baño privado", hab_a5: "Refrigerador", hab_a6: "Microondas",
+    hab_a7: "Mesa estilo barra", hab_a8: "Desayuno incluido",
+    hab_from:     "Desde (1 persona)",
+    hab_note:     "2 personas ₡30.000 · Adicional ₡10.000",
+    hab_btn:      "Reservar",
+    dpTag:        "Pase del Día",
+    dpTitle:      'Disfrutá sin <em>quedarte a dormir</em>',
+    dpLead:       "De 8:00 a.m. a 5:00 p.m. Todos los paquetes incluyen piscina, bicicletas, área de parrillas y parqueo privado.",
+    dp1pkg:  "Paquete #1 · Villas",     dp1name: "Solo instalaciones",
+    dp1_i1:  "Uso de villa",            dp1_i2: "Piscina, bicicletas y parrillas",
+    dp1btn:  "Reservar",
+    dp2pkg:  "Paquete #2 · Villas",     dp2name: "Todo incluido",
+    dp2_i1:  "Uso de villa + instalaciones", dp2_i2: "Desayuno típico o americano",
+    dp2_i3:  "Almuerzo casado",         dp2_i4: "Snack y café",
+    dp2btn:  "Reservar",
+    dp3pkg:  "Paquete #3 · Habitaciones", dp3name: "Solo instalaciones",
+    dp3_i1:  "Uso de habitación",       dp3_i2: "Piscina, bicicletas y parrillas",
+    dp3btn:  "Reservar",
+    dp4pkg:  "Paquete #4 · Habitaciones", dp4name: "Con 3 tiempos",
+    dp4_i1:  "Uso de habitación + instalaciones", dp4_i2: "Snack + almuerzo casado + café",
+    dp4btn:  "Reservar",
+    sbTitle: "Instalaciones incluidas",
+    sbSub:   "Acceso completo durante el horario del pase del día.",
+    sb_i1:   "Piscina con cascada", sb_i2: "Bicicletas",
+    sb_i3:   "Área de parrillas",  sb_i4: "Parqueo privado bajo techo",
+    sbSched: "🕗 Horario: 8:00 a.m. – 5:00 p.m.",
+    galTag:   "Galería",
+    galTitle: 'El hotel en <em>imágenes</em>',
+    galLead:  "Villas de estilo europeo con fachada azul característica, rodeadas de montañas y jardines tropicales.",
+    galMore:  "Más fotos en",
+    galCap1: "Fachada · Villas", galCap2: "Vista aérea", galCap3: "Piscina",
+    galCap4: "Habitación equipada", galCap5: "Jardines y áreas comunes",
+    bookTag:  "Reservaciones",
+    bookTitle:'Reservá tu <em>estadía</em>',
+    bookLead: "Completá el formulario y te contactamos en menos de 24 horas para confirmar disponibilidad y los detalles de tu llegada.",
+    bookSubmit:"Enviar solicitud de reserva",
+    bookNote: "Al enviar, un miembro de nuestro equipo te contactará para confirmar disponibilidad. Pagos coordinados directamente con el hotel.",
+    fNameL:   "Nombre completo",        fNamePh:  "Tu nombre completo",
+    fEmailL:  "Correo electrónico",     fEmailPh: "correo@ejemplo.com",
+    fPhoneL:  "Teléfono / WhatsApp",
+    fTypeL:   "Tipo de alojamiento",    fTypePh:  "Seleccioná una opción",
+    fCiL:     "Fecha de llegada",       fCoL:     "Fecha de salida",
+    fPeopleL: "Número de personas",
+    fNotesL:  "Solicitudes especiales (opcional)",
+    fNotesPh: "Cumpleaños, intolerancias, hora aproximada de llegada…",
+    ccTitle:  "Contacto directo",
+    ccSub:    "Podés escribirnos directamente o usar el formulario. Respondemos en menos de 24 horas.",
+    waBtn:    "Escribinos por WhatsApp",
+    socLabel: "Seguinos en redes sociales",
+    sucTitle: "¡Solicitud enviada!",
+    sucMsg:   "Gracias por contactarnos. Te responderemos pronto para confirmar tu reserva en Orosí.",
+    "ccEmailL":  "Email",
+    "ccPhoneL":  "Teléfono / WhatsApp",
+    "ccLocL":    "Ubicación",
+    "ccTimeL":   "Check-in / Check-out",
+    "selPh":     "Seleccioná una opción",
+    "ogStay":    "🏡 Hospedaje",
+    "ogDay":     "☀️ Pase del Día",
+    "opV1":      "Villa – 1 persona · ₡30.000 (desayuno incluido)",
+    "opV2":      "Villa – 2 personas · ₡40.000 (desayuno incluido)",
+    "opH1":      "Habitación – 1 persona · ₡25.000 (desayuno incluido)",
+    "opH2":      "Habitación – 2 personas · ₡30.000 (desayuno incluido)",
+    "opD1":      "Paquete #1 – Villa, instalaciones · ₡12.000/persona",
+    "opD2":      "Paquete #2 – Villa, todo incluido · ₡21.500/persona",
+    "opD3":      "Paquete #3 – Habitación, instalaciones · ₡10.000/persona",
+    "opD4":      "Paquete #4 – Habitación, 3 tiempos · ₡18.500/persona",
+    footerLinks: ["El Hotel","Alojamiento","Pase del Día","Galería","Contacto"],
+    footerCopy:  "© 2026 Orosi Valley Lodge · Orosí, Paraíso de Cartago, Costa Rica · 📞 8455-8509"
+  },
+  en: {
+    heroKicker:   "Orosí · Paraíso · Cartago · Costa Rica",
+    heroTitle:    '<strong>A refuge</strong> among<br>mountains and <em>nature</em>',
+    heroDesc:     "Boutique villas and rooms in the heart of the Orosí Valley. Breakfast included, pool, bicycles and authentic Costa Rican warmth.",
+    heroBtn1:     "Book Now",
+    heroBtn2:     "View Rooms",
+    scrollTxt:    "Discover more",
+    feat0label:   "Google Reviews",
+    feat1label:   "Breakfast",
+    feat1val:     "Always included",
+    feat2label:   "Pool",
+    feat2val:     "Included",
+    feat3label:   "Bicycles",
+    feat3val:     "Included",
+    feat4label:   "BBQ Area",
+    feat4val:     "Included",
+    feat5label:   "Parking",
+    feat5val:     "Private covered",
+    aboutTag:     "About",
+    aboutTitle:   'Boutique in the heart<br>of the <em>Orosí Valley</em>',
+    aboutP1:      "Located in the center of Orosí, Paraíso de Cartago, Orosi Valley Lodge is a boutique hotel with European-style villas and rooms, surrounded by mountains and Costa Rican nature.",
+    aboutP2:      "Founded in 2017, we offer a personalized experience with breakfast included, pool, bicycles and BBQ access in a cozy atmosphere for couples, families and groups.",
+    reviewLabel:  "Google Rating",
+    reviewSub:    "Based on guest reviews",
+    roomsTag:     "Accommodation",
+    roomsTitle:   'Choose your <em>ideal space</em>',
+    roomsLead:    "Check-in: 2:00 p.m. · Check-out: 12:00 p.m. All stays include breakfast, pool, bicycles, BBQ and private parking.",
+    villa_badge:  "Equipped villa",
+    villa_type:   "Stay · Villa",
+    villa_name:   "Full Villa",
+    villa_a1: "2 bedrooms", villa_a2: "Queen beds", villa_a3: "TV in each room",
+    villa_a4: "Private bathroom", villa_a5: "Equipped kitchen", villa_a6: "Balcony with view",
+    villa_a7: "Breakfast included", villa_a8: "Pool · Bicycles",
+    villa_from:   "From (1 person)",
+    villa_note:   "2 people ₡40,000 · Additional ₡10,000",
+    villa_btn:    "Book",
+    hab_badge:    "Standard room",
+    hab_type:     "Stay · Room",
+    hab_name:     "Equipped Room",
+    hab_a1: "Queen bed", hab_a2: "Single bed", hab_a3: "TV",
+    hab_a4: "Private bathroom", hab_a5: "Refrigerator", hab_a6: "Microwave",
+    hab_a7: "Bar-style table", hab_a8: "Breakfast included",
+    hab_from:     "From (1 person)",
+    hab_note:     "2 people ₡30,000 · Additional ₡10,000",
+    hab_btn:      "Book",
+    dpTag:        "Day Pass",
+    dpTitle:      'Enjoy without <em>staying overnight</em>',
+    dpLead:       "From 8:00 a.m. to 5:00 p.m. All packages include pool, bicycles, BBQ area and private parking.",
+    dp1pkg:  "Package #1 · Villas",     dp1name: "Facilities only",
+    dp1_i1:  "Villa use",               dp1_i2: "Pool, bicycles and BBQ",
+    dp1btn:  "Book",
+    dp2pkg:  "Package #2 · Villas",     dp2name: "All inclusive",
+    dp2_i1:  "Villa + facilities",      dp2_i2: "Local or american breakfast",
+    dp2_i3:  "Home-style lunch",        dp2_i4: "Snack and coffee",
+    dp2btn:  "Book",
+    dp3pkg:  "Package #3 · Rooms",      dp3name: "Facilities only",
+    dp3_i1:  "Room use",                dp3_i2: "Pool, bicycles and BBQ",
+    dp3btn:  "Book",
+    dp4pkg:  "Package #4 · Rooms",      dp4name: "With 3 meals",
+    dp4_i1:  "Room + facilities",       dp4_i2: "Snack + lunch + coffee",
+    dp4btn:  "Book",
+    sbTitle: "Included facilities",
+    sbSub:   "Full access during the day pass hours.",
+    sb_i1:   "Pool with waterfall", sb_i2: "Bicycles",
+    sb_i3:   "BBQ area",           sb_i4: "Private covered parking",
+    sbSched: "🕗 Hours: 8:00 a.m. – 5:00 p.m.",
+    galTag:   "Gallery",
+    galTitle: 'The hotel in <em>images</em>',
+    galLead:  "European-style villas with a characteristic blue facade, surrounded by mountains and tropical gardens.",
+    galMore:  "More photos at",
+    galCap1: "Main facade · Villas", galCap2: "Aerial view", galCap3: "Pool",
+    galCap4: "Equipped room", galCap5: "Gardens and common areas",
+    bookTag:  "Reservations",
+    bookTitle:'Book your <em>stay</em>',
+    bookLead: "Fill out the form and we'll contact you within 24 hours to confirm availability and your arrival details.",
+    bookSubmit:"Send reservation request",
+    bookNote: "After submitting, a team member will contact you to confirm availability. Payments arranged directly with the hotel.",
+    fNameL:   "Full name",              fNamePh:  "Your full name",
+    fEmailL:  "Email address",          fEmailPh: "email@example.com",
+    fPhoneL:  "Phone / WhatsApp",
+    fTypeL:   "Type of stay",           fTypePh:  "Select an option",
+    fCiL:     "Check-in date",          fCoL:     "Check-out date",
+    fPeopleL: "Number of guests",
+    fNotesL:  "Special requests (optional)",
+    fNotesPh: "Birthday, dietary restrictions, approximate arrival time…",
+    ccTitle:  "Direct Contact",
+    ccSub:    "You can write to us directly or use the form. We respond within 24 hours.",
+    waBtn:    "Message us on WhatsApp",
+    socLabel: "Follow us on social media",
+    sucTitle: "Request sent!",
+    sucMsg:   "Thank you for reaching out. We'll get back to you soon to confirm your stay in Orosí.",
+    "ccEmailL":  "Email",
+    "ccPhoneL":  "Phone / WhatsApp",
+    "ccLocL":    "Location",
+    "ccTimeL":   "Check-in / Check-out",
+    "selPh":     "Select an option",
+    "ogStay":    "🏡 Accommodation",
+    "ogDay":     "☀️ Day Pass",
+    "opV1":      "Villa – 1 person · ₡30,000 (breakfast included)",
+    "opV2":      "Villa – 2 people · ₡40,000 (breakfast included)",
+    "opH1":      "Room – 1 person · ₡25,000 (breakfast included)",
+    "opH2":      "Room – 2 people · ₡30,000 (breakfast included)",
+    "opD1":      "Package #1 – Villa, facilities · ₡12,000/person",
+    "opD2":      "Package #2 – Villa, all inclusive · ₡21,500/person",
+    "opD3":      "Package #3 – Room, facilities · ₡10,000/person",
+    "opD4":      "Package #4 – Room, 3 meals · ₡18,500/person",
+    footerLinks: ["About","Rooms","Day Pass","Gallery","Contact"],
+    footerCopy:  "© 2026 Orosi Valley Lodge · Orosí, Paraíso de Cartago, Costa Rica · 📞 8455-8509"
+  }
+};
+
+function q(sel) { return document.querySelector(sel); }
+function qa(sel) { return document.querySelectorAll(sel); }
+function txt(el, val) { if(el) el.textContent = val; }
+function html(el, val) { if(el) el.innerHTML = val; }
+function ph(el, val) { if(el) el.placeholder = val; }
+
+function setLang(lang) {
+  const t = PAGE[lang];
+  const tn = T[lang];
+
+  // Navbar & mobile menu (by ID)
+  for (const [id, val] of Object.entries(tn)) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  }
+
+  // Hero
+  txt(q('.hero-kicker'), t.heroKicker);
+  html(q('.hero-h1'), t.heroTitle);
+  txt(q('.hero-desc'), t.heroDesc);
+  const heroBtns = qa('.hero-actions a');
+  if(heroBtns[0]) heroBtns[0].textContent = t.heroBtn1;
+  if(heroBtns[1]) heroBtns[1].textContent = t.heroBtn2;
+  txt(q('.hero-scroll'), t.scrollTxt);
+
+  // Features bar
+  const labels = qa('.feat-label');
+  const vals = qa('.feat-val');
+  const lkeys = ['feat0label','feat1label','feat2label','feat3label','feat4label','feat5label'];
+  const vkeys = ['','feat1val','feat2val','feat3val','feat4val','feat5val'];
+  lkeys.forEach((k,i) => { if(labels[i] && t[k]) txt(labels[i], t[k]); });
+  vkeys.forEach((k,i) => { if(k && vals[i] && t[k]) txt(vals[i], t[k]); });
+
+  // About
+  const tags = qa('.tag');
+  if(tags[0]) txt(tags[0], t.aboutTag);
+  const secTitles = qa('h2.sec');
+  if(secTitles[0]) html(secTitles[0], t.aboutTitle);
+  const aboutPs = qa('#about .about-text p');
+  if(aboutPs[0]) txt(aboutPs[0], t.aboutP1);
+  if(aboutPs[1]) txt(aboutPs[1], t.aboutP2);
+  const reviewLabels = qa('.review-note div div');
+  if(reviewLabels[0]) txt(reviewLabels[0], t.reviewLabel);
+  if(reviewLabels[1]) txt(reviewLabels[1], t.reviewSub);
+
+  // Rooms
+  if(tags[1]) txt(tags[1], t.roomsTag);
+  if(secTitles[1]) html(secTitles[1], t.roomsTitle);
+  txt(q('#rooms .lead'), t.roomsLead);
+  const rooms = qa('.room');
+  if(rooms[0]) {
+    txt(rooms[0].querySelector('.room-badge'), t.villa_badge);
+    txt(rooms[0].querySelector('.room-type'), t.villa_type);
+    txt(rooms[0].querySelector('.room-name'), t.villa_name);
+    const am = rooms[0].querySelectorAll('.amenity');
+    const vkeys2 = ['villa_a1','villa_a2','villa_a3','villa_a4','villa_a5','villa_a6','villa_a7','villa_a8'];
+    am.forEach((el,i) => { if(vkeys2[i] && t[vkeys2[i]]) txt(el, t[vkeys2[i]]); });
+    txt(rooms[0].querySelector('.price-stack small'), t.villa_from);
+    txt(rooms[0].querySelector('.price-note'), t.villa_note);
+    txt(rooms[0].querySelector('.btn-book'), t.villa_btn);
+  }
+  if(rooms[1]) {
+    txt(rooms[1].querySelector('.room-badge'), t.hab_badge);
+    txt(rooms[1].querySelector('.room-type'), t.hab_type);
+    txt(rooms[1].querySelector('.room-name'), t.hab_name);
+    const am = rooms[1].querySelectorAll('.amenity');
+    const hkeys = ['hab_a1','hab_a2','hab_a3','hab_a4','hab_a5','hab_a6','hab_a7','hab_a8'];
+    am.forEach((el,i) => { if(hkeys[i] && t[hkeys[i]]) txt(el, t[hkeys[i]]); });
+    txt(rooms[1].querySelector('.price-stack small'), t.hab_from);
+    txt(rooms[1].querySelector('.price-note'), t.hab_note);
+    txt(rooms[1].querySelector('.btn-book'), t.hab_btn);
+  }
+
+  // Day Pass
+  if(tags[2]) txt(tags[2], t.dpTag);
+  if(secTitles[2]) html(secTitles[2], t.dpTitle);
+  txt(q('#daypass .lead'), t.dpLead);
+  const dpcards = qa('.dp-card');
+  const dpdata = [
+    {pkg:'dp1pkg',name:'dp1name',items:['dp1_i1','dp1_i2'],btn:'dp1btn'},
+    {pkg:'dp2pkg',name:'dp2name',items:['dp2_i1','dp2_i2','dp2_i3','dp2_i4'],btn:'dp2btn'},
+    {pkg:'dp3pkg',name:'dp3name',items:['dp3_i1','dp3_i2'],btn:'dp3btn'},
+    {pkg:'dp4pkg',name:'dp4name',items:['dp4_i1','dp4_i2'],btn:'dp4btn'},
+  ];
+  dpcards.forEach((card,i) => {
+    if(!dpdata[i]) return;
+    const d = dpdata[i];
+    txt(card.querySelector('.dp-pkg'), t[d.pkg]);
+    txt(card.querySelector('.dp-name'), t[d.name]);
+    const lis = card.querySelectorAll('.dp-includes li');
+    d.items.forEach((k,j) => { if(lis[j] && t[k]) txt(lis[j], t[k]); });
+    const btn = card.querySelector('.btn-book, .btn-solid');
+    if(btn) txt(btn, t[d.btn]);
+  });
+  txt(q('.sb-title'), t.sbTitle);
+  txt(q('.sb-sub'), t.sbSub);
+  const sbItems = qa('.sb-list li');
+  ['sb_i1','sb_i2','sb_i3','sb_i4'].forEach((k,i) => { if(sbItems[i]) txt(sbItems[i], t[k]); });
+  txt(q('.sb-schedule'), t.sbSched);
+
+  // Gallery
+  if(tags[3]) txt(tags[3], t.galTag);
+  if(secTitles[3]) html(secTitles[3], t.galTitle);
+  txt(q('#gallery .lead'), t.galLead);
+  const caps = qa('.gal-cap span');
+  ['galCap1','galCap2','galCap3','galCap4','galCap5'].forEach((k,i) => { if(caps[i]) txt(caps[i], t[k]); });
+  const galMoreEl = q('#gallery p:last-child');
+  if(galMoreEl) {
+    const aTag = galMoreEl.querySelector('a');
+    if(aTag) {
+      galMoreEl.firstChild.textContent = t.galMore + ' ';
+    }
+  }
+
+  // Booking / Contact
+  if(tags[4]) txt(tags[4], t.bookTag);
+  if(secTitles[4]) html(secTitles[4], t.bookTitle);
+  txt(q('#booking .lead'), t.bookLead);
+  txt(q('button[type="submit"]'), t.bookSubmit);
+  txt(q('.form-note'), t.bookNote);
+  const formLabels = qa('.form-field label');
+  const labelKeys = ['fNameL','fEmailL','fPhoneL','fTypeL','fCiL','fCoL','fPeopleL','fNotesL'];
+  formLabels.forEach((el,i) => { if(labelKeys[i] && t[labelKeys[i]]) txt(el, t[labelKeys[i]]); });
+  ph(q('input[type="text"]'), t.fNamePh);
+  ph(q('input[type="email"]'), t.fEmailPh);
+  ph(q('textarea'), t.fNotesPh);
+  txt(q('.cc-title'), t.ccTitle);
+  txt(q('.cc-sub'), t.ccSub);
+  // Contact card labels
+  txt(document.getElementById('cc-email'), t.ccEmailL);
+  txt(document.getElementById('cc-phone'), t.ccPhoneL);
+  txt(document.getElementById('cc-loc'), t.ccLocL);
+  txt(document.getElementById('cc-time'), t.ccTimeL);
+  // Form labels
+  txt(document.getElementById('fl-name'), t.fNameL);
+  txt(document.getElementById('fl-email'), t.fEmailL);
+  txt(document.getElementById('fl-phone'), t.fPhoneL);
+  txt(document.getElementById('fl-type'), t.fTypeL);
+  txt(document.getElementById('fl-checkin'), t.fCiL);
+  txt(document.getElementById('fl-checkout'), t.fCoL);
+  txt(document.getElementById('fl-people'), t.fPeopleL);
+  txt(document.getElementById('fl-notes'), t.fNotesL);
+  // Select placeholder & options
+  txt(document.getElementById('sel-ph'), t.selPh);
+  const og1 = document.getElementById('og-stay');
+  const og2 = document.getElementById('og-day');
+  if(og1) og1.label = t.ogStay;
+  if(og2) og2.label = t.ogDay;
+  txt(document.getElementById('op-v1'), t.opV1);
+  txt(document.getElementById('op-v2'), t.opV2);
+  txt(document.getElementById('op-h1'), t.opH1);
+  txt(document.getElementById('op-h2'), t.opH2);
+  txt(document.getElementById('op-d1'), t.opD1);
+  txt(document.getElementById('op-d2'), t.opD2);
+  txt(document.getElementById('op-d3'), t.opD3);
+  txt(document.getElementById('op-d4'), t.opD4);
+  // WhatsApp button - preserve SVG icon
+  const waBtn = q('.wa-cta');
+  if(waBtn) {
+    const svg = waBtn.querySelector('svg');
+    waBtn.textContent = t.waBtn;
+    if(svg) waBtn.prepend(svg);
+  }
+  txt(q('.social-label'), t.socLabel);
+  txt(q('.success-msg h3'), t.sucTitle);
+  txt(q('.success-msg p'), t.sucMsg);
+
+  // Footer
+  const fLinks = qa('.footer-links a');
+  if(t.footerLinks) t.footerLinks.forEach((v,i) => { if(fLinks[i]) txt(fLinks[i], v); });
+  txt(q('.footer-copy'), t.footerCopy);
+
+  // Update buttons
+  qa('.lang-btn').forEach(b => b.classList.toggle('on', b.id === 'btn-'+lang));
+
+  // Scroll hint re-attach
+  const scrollEl = q('.hero-scroll');
+  if(scrollEl) scrollEl.childNodes[0].textContent = t.scrollTxt;
+}
 </script>
 </body>
 </html>
